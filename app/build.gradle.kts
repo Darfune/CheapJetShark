@@ -69,4 +69,8 @@ dependencies {
 
     // Coil library for remote image loading
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // Compose navigation
+    implementation("androidx.navigation:navigation-compose:2.7.3")
+
 }
