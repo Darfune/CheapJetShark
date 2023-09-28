@@ -1,6 +1,6 @@
 package com.example.cheapjetshark.models.stores
 
-data class storesItem(
+data class StoresItem(
     val images: Images,
     val isActive: Int,
     val storeID: String,

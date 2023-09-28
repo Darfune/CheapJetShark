@@ -1,3 +1,3 @@
 package com.example.cheapjetshark.models.stores
 
-class stores : ArrayList<storesItem>()
+class Stores : ArrayList<StoresItem>()
