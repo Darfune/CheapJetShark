@@ -4,6 +4,7 @@ import com.example.cheapjetshark.models.deal.Deal
 import com.example.cheapjetshark.models.deals.DealsList
 import com.example.cheapjetshark.models.gamesbyid.GamesById
 import com.example.cheapjetshark.models.gamesbysearch.GamesBySearch
+import com.example.cheapjetshark.models.lastChange.StoresLastChange
 import com.example.cheapjetshark.models.stores.Stores
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -19,7 +20,7 @@ interface CheapSharkApi {
         @Query("lowerPrice") lowerPrice: Int? = null,
         @Query("sortBy") sortBy: String? = null,
         @Query("pageNumber") pageNumber: Int? = null,
-        @Query("title") title: String = ""
+        @Query("title") title: String? = null
     ): DealsList
 
     @GET(value = "deals")
@@ -39,4 +40,7 @@ interface CheapSharkApi {
 
     @GET("store")
     suspend fun getStores(): Stores
+
+    @GET("stores?lastChange=")
+    suspend fun getLastChanges(): StoresLastChange
 }
