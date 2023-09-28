@@ -38,7 +38,7 @@ interface CheapSharkApi {
         @Query("id") id: String
     ): GamesById
 
-    @GET("store")
+    @GET("stores")
     suspend fun getStores(): Stores
 
     @GET("stores?lastChange=")
