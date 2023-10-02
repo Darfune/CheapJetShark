@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import com.example.cheapjetshark.navigation.CheapJetSharkNavigation
+import androidx.navigation.compose.rememberNavController
+import com.example.cheapjetshark.navigation.root.CheapJetSharkNavigation
 import com.example.cheapjetshark.ui.theme.CheapJetSharkTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CheapJetSharkTheme {
                 Column {
-                    CheapJetSharkNavigation()
+                    CheapJetSharkNavigation(navController = rememberNavController())
                 }
             }
         }
