@@ -32,12 +32,12 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
     ): DataOrException<DealsList, Boolean, Exception> {
         val response = try {
             api.getListOfDeals(
-//                storeID = storeID,
-//                upperPrice = upperPrice,
-//                lowerPrice = lowerPrice,
-//                sortBy = sortBy,
-//                pageNumber = pageNumber,
-//                title = title
+                storeID = storeID,
+                upperPrice = upperPrice,
+                lowerPrice = lowerPrice,
+                sortBy = sortBy,
+                pageNumber = pageNumber,
+                title = title
             )
         } catch (exc: Exception) {
             Log.d("Api Repository", "getListOfDeals: $exc")
