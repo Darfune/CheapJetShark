@@ -29,6 +29,7 @@ import com.example.cheapjetshark.R
 import com.example.cheapjetshark.navigation.CheapJetSharkScreens
 import com.example.cheapjetshark.screens.main.components.BottomNavigationItem
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
