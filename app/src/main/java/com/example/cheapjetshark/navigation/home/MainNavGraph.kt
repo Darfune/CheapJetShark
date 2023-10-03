@@ -16,17 +16,17 @@ fun HomeNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = NavigationGraph.HOME,
-        startDestination = BottomNavigationScreens.Home.name
+        startDestination = MainNavigationScreens.Main.name
     ) {
-        composable(route = BottomNavigationScreens.Home.name){
+        composable(route = MainNavigationScreens.Main.name){
             val mainViewModel = hiltViewModel<MainViewModel>()
             HomeScreen(navController = navController, mainViewModel)
         }
-        composable(route = BottomNavigationScreens.Stores.name){
+        composable(route = MainNavigationScreens.Stores.name){
             val mainViewModel = hiltViewModel<MainViewModel>()
             StoresScreen(navController = navController, mainViewModel)
         }
-        composable(route = BottomNavigationScreens.Settings.name){
+        composable(route = MainNavigationScreens.Settings.name){
             val mainViewModel = hiltViewModel<MainViewModel>()
             SettingsScreen(navController = navController, mainViewModel)
         }

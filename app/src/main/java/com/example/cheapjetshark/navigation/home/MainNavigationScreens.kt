@@ -2,7 +2,7 @@ package com.example.cheapjetshark.navigation.bottombar
 
 import com.example.cheapjetshark.R
 
-sealed class BottomNavigationScreens(
+sealed class MainNavigationScreens(
     val name: String,
     val title: String,
     val selectedIcon: Int,
@@ -10,15 +10,15 @@ sealed class BottomNavigationScreens(
     val hasNews: Boolean,
     val badgeCount: Int? = null
 ) {
-    data object Home : BottomNavigationScreens(
+    data object Main : MainNavigationScreens(
         name = "home",
-        title = "Home",
+        title = "Main",
         selectedIcon = R.drawable.selected_home_nav_item,
         unselectedIcon = R.drawable.unselected_home_nav_item,
         hasNews = false
     )
 
-    data object Stores : BottomNavigationScreens(
+    data object Stores : MainNavigationScreens(
         name = "stores",
         title = "Stores",
         selectedIcon = R.drawable.selected_store_nav_item,
@@ -26,7 +26,7 @@ sealed class BottomNavigationScreens(
         hasNews = false
     )
 
-    data object Settings : BottomNavigationScreens(
+    data object Settings : MainNavigationScreens(
         name = "settings",
         title = "Settings",
         selectedIcon = R.drawable.selected_settings_nav_item,

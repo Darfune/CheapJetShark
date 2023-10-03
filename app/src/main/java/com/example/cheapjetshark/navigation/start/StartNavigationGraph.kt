@@ -11,15 +11,20 @@ import com.example.cheapjetshark.screens.main.MainScreen
 import com.example.cheapjetshark.screens.main.MainViewModel
 import com.example.cheapjetshark.screens.splash.SplashScreen
 
+enum class StartScreens {
+    AuthScreen,
+    SplashScreen
+}
+
 fun NavGraphBuilder.startNavGraph(navController: NavHostController) {
     navigation(
         route = NavigationGraph.START,
-        startDestination = CheapJetSharkScreens.SplashScreen.name
+        startDestination = StartScreens.SplashScreen.name
     ) {
-        composable(CheapJetSharkScreens.SplashScreen.name) {
+        composable(StartScreens.SplashScreen.name) {
             SplashScreen(navController = navController)
         }
-        composable(CheapJetSharkScreens.AuthScreen.name){
+        composable(StartScreens.AuthScreen.name){
             AuthScreen(navController = navController)
         }
 

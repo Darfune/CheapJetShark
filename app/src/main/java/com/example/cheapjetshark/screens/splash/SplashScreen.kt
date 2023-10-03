@@ -3,10 +3,10 @@ package com.example.cheapjetshark.screens.splash
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.example.cheapjetshark.navigation.start.CheapJetSharkScreens
+import com.example.cheapjetshark.navigation.start.StartScreens
 
 @Composable
 fun SplashScreen(navController: NavController) {
     Text(text = "Splash Screen")
-    navController.navigate(CheapJetSharkScreens.AuthScreen.name)
+    navController.navigate(StartScreens.AuthScreen.name)
 }

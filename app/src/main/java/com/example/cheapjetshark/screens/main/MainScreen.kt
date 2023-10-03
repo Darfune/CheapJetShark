@@ -28,7 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cheapjetshark.navigation.bottombar.HomeNavGraph
-import com.example.cheapjetshark.navigation.bottombar.BottomNavigationScreens
+import com.example.cheapjetshark.navigation.bottombar.MainNavigationScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -39,9 +39,9 @@ fun MainScreen(
 ) {
 
     val items = listOf(
-        BottomNavigationScreens.Home,
-        BottomNavigationScreens.Stores,
-        BottomNavigationScreens.Settings,
+        MainNavigationScreens.Main,
+        MainNavigationScreens.Stores,
+        MainNavigationScreens.Settings,
     )
     var selectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)

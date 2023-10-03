@@ -11,5 +11,5 @@ fun HomeScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    Text(text = "Home Screen")
+    Text(text = "Main Screen")
 }
