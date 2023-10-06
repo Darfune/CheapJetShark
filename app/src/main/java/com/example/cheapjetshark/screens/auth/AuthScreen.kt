@@ -1,6 +1,7 @@
 package com.example.cheapjetshark.screens.auth
 
 import android.widget.Space
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -20,6 +22,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -33,18 +37,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.cheapjetshark.R
 import com.example.cheapjetshark.navigation.root.NavigationGraph
+import com.example.cheapjetshark.navigation.start.AuthScreens
 
 
 @Composable
 fun AuthScreen(navController: NavController) {
-
-
+    LoginScreen(navController = navController)
 }
 
 @Preview
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController = rememberNavController()) {
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier
@@ -86,6 +95,25 @@ fun LoginScreen() {
                     shape = RoundedCornerShape(size = 4.dp)
                 ) {
                     Text(text = "Log In")
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Don't have an account, ",
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                    ClickableText(
+                        text = AnnotatedString(
+                            "Sign in now!",
+                            SpanStyle(color = MaterialTheme.colorScheme.primary)
+                        ),
+
+                        onClick = {
+                            navController.navigate(AuthScreens.RegistrationScreen.name)
+                        }
+                    )
                 }
             }
         }
@@ -150,10 +178,14 @@ private fun TopSection() {
         }
     )
     Row(
-        modifier = Modifier.padding(top = 80.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.padding(top = 20.dp),
     ) {
-        Column {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
+                painter = painterResource(id = R.drawable.cheapsharklogo),
+                modifier = Modifier.fillMaxWidth(),
+                contentDescription = "Logo"
+            )
             Text(
                 text = "Find the best prices",
                 style = MaterialTheme.typography.bodyLarge,
