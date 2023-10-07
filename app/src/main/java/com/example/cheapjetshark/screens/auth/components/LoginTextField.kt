@@ -1,4 +1,4 @@
-package com.example.cheapjetshark.screens.auth
+package com.example.cheapjetshark.screens.auth.components
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
