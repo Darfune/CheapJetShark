@@ -56,6 +56,7 @@ import com.example.cheapjetshark.navigation.start.AuthScreens
 import com.example.cheapjetshark.screens.auth.components.LoginTextField
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthScreen(navController: NavController) {
     val email = rememberSaveable {
