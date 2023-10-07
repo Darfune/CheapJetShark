@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1016851625568",
+    "project_id": "cheapjetshark",
+    "storage_bucket": "cheapjetshark.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016851625568:android:1cd3c306d8ccfc63847505",
+        "android_client_info": {
+          "package_name": "com.example.cheapjetshark"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK93OpQoId17nZLO3T8agjeevmvlc4ZpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    // Google services Gradle plugin
+    id("com.google.gms.google-services")
 
 }
 
@@ -101,6 +103,11 @@ dependencies {
 
     // Json converter gson
     implementation("com.google.code.gson:gson:2.10.1")
+
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
 
 
 }
