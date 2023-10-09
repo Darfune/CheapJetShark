@@ -2,6 +2,7 @@
 
 package com.example.cheapjetshark.screens.auth
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,14 +12,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -42,9 +42,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,12 +50,24 @@ import androidx.navigation.compose.rememberNavController
 import com.example.cheapjetshark.R
 import com.example.cheapjetshark.navigation.root.NavigationGraph
 import com.example.cheapjetshark.navigation.start.AuthScreens
-import com.example.cheapjetshark.screens.auth.components.LoginTextField
+import com.example.cheapjetshark.screens.auth.components.EmailTextField
+import com.example.cheapjetshark.screens.auth.components.PasswordTextField
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AuthScreen(navController: NavController) {
+fun LogInScreen(
+    navController: NavController,
+    loading: Boolean = false,
+    isCreatingAccount: Boolean = false,
+    onDone: (String, String) -> Unit = { email, password ->
+        Log.d(
+            "Form",
+            "LogInScreen: $email $password"
+        )
+    }
+) {
+
     val email = rememberSaveable {
         mutableStateOf("")
     }
@@ -71,12 +80,12 @@ fun AuthScreen(navController: NavController) {
     val isError = rememberSaveable {
         mutableStateOf(false)
     }
-    val passwordFocusRequest = FocusRequester.Default
+    val passwordFocusRequest = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val valid = remember(email.value, password.value) {
         email.value.trim().isNotEmpty() && password.value.trim().isNotEmpty()
     }
-    LoginScreen(
+    LogInBody(
         navController = navController,
         email = email,
         password = password,
@@ -84,12 +93,14 @@ fun AuthScreen(navController: NavController) {
         isError = isError,
         passwordFocusRequest = passwordFocusRequest,
         keyboardController = keyboardController,
-        valid = valid
+        valid = valid,
+        loading = loading,
+        onDone = onDone
     )
 }
 
 @Composable
-fun LoginScreen(
+fun LogInBody(
     navController: NavController = rememberNavController(),
     email: MutableState<String>,
     password: MutableState<String>,
@@ -97,7 +108,9 @@ fun LoginScreen(
     isError: MutableState<Boolean>,
     passwordFocusRequest: FocusRequester,
     keyboardController: SoftwareKeyboardController?,
-    valid: Boolean
+    valid: Boolean,
+    onDone: (String, String) -> Unit,
+    loading: Boolean
 ) {
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
@@ -107,22 +120,32 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             TopSection()
+
             Spacer(modifier = Modifier.height(36.dp))
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 30.dp)
             ) {
+
                 EmailTextField(
                     modifier = Modifier.fillMaxWidth(),
                     emailState = email,
                     label = "Email",
+                    loading = loading,
                     isError = isError.value,
                     imeAction = ImeAction.Next,
-                    passwordFocusRequest = passwordFocusRequest
+                    onAction = KeyboardActions {
+                        passwordFocusRequest.requestFocus()
+                        Log.d("Login", "EmailTextField: request called")
+                    }
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
+
                 PasswordTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -130,118 +153,82 @@ fun LoginScreen(
                         .focusRequester(passwordFocusRequest),
                     passwordState = password,
                     isError = isError.value,
+                    loading = loading,
                     emailState = email,
                     label = "Password",
                     valid = valid,
-                    passwordVisibility = passwordVisibility
+                    passwordVisibility = passwordVisibility,
+                    onDone = onDone
+
 
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        navController.navigate(NavigationGraph.HOME) {
-                            popUpTo(NavigationGraph.AUTH) {
-                                inclusive = true
-                            }
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    shape = RoundedCornerShape(size = 4.dp)
-                ) {
-                    Text(text = "Log In")
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Don't have an account, ",
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                    ClickableText(
-                        text = AnnotatedString(
-                            "Sign in now!",
-                            SpanStyle(color = MaterialTheme.colorScheme.primary)
-                        ),
 
-                        onClick = {
-                            navController.navigate(AuthScreens.RegistrationScreen.name)
-                        }
-                    )
+                LoginInButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    loading = loading,
+                    validInputs = valid
+                ) {
+                    onDone(email.value.trim(), password.value.trim())
+                    keyboardController?.hide()
+//                    navController.navigate(NavigationGraph.HOME) {
+//                        popUpTo(NavigationGraph.AUTH) {
+//                            inclusive = true
+//                        }
+//                    }
                 }
+
+                SignInText(modifier = Modifier.fillMaxWidth()) {
+                    navController.navigate(AuthScreens.RegistrationScreen.name)
+                }
+
             }
         }
     }
 }
 
 @Composable
-fun EmailTextField(
-    modifier: Modifier,
-    label: String,
-    imeAction: ImeAction = ImeAction.Next,
-    onAction: KeyboardActions = KeyboardActions.Default,
-    emailState: MutableState<String>,
-    isError: Boolean,
-    passwordFocusRequest: FocusRequester
-) {
-    LoginTextField(
-        modifier = modifier,
-        label = "Email",
-        valueState = emailState,
-        isError = isError,
-        keyboardType = KeyboardType.Email,
-        imeAction = ImeAction.Next,
-        onAction = KeyboardActions {
-            passwordFocusRequest.requestFocus()
-        },
-        enable = true,
-        isSingleLine = true,
-        trailingIcon = null
-    )
-}
-
-@Composable
-fun PasswordTextField(
-    modifier: Modifier,
-    emailState: MutableState<String>,
-    passwordState: MutableState<String>,
-    isError: Boolean,
-    label: String,
-    passwordVisibility: MutableState<Boolean>,
-    valid: Boolean
-) {
-    val visualTransformation =
-        if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()
-    LoginTextField(
-        modifier = modifier,
-        label = label,
-        valueState = passwordState,
-        isError = isError,
-        keyboardType = KeyboardType.Password,
-        imeAction = ImeAction.Done,
-        onAction = KeyboardActions {
-            if (!valid) return@KeyboardActions
-//            onDone(emailState.value.trim(), passwordState.value.trim())
-        },
-        enable = true,
-        isSingleLine = true,
-        visualTransformation = visualTransformation
+fun SignInText(modifier: Modifier = Modifier, signInAction: (Int) -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
     ) {
-        PasswordVisibility(passwordVisibility = passwordVisibility)
+        Text(
+            text = "Don't have an account, ",
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+        ClickableText(
+            text = AnnotatedString(
+                "Sign in now!",
+                SpanStyle(color = MaterialTheme.colorScheme.primary)
+            ),
+            onClick = signInAction
+        )
     }
 }
 
 @Composable
-fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
-    val visible = passwordVisibility.value
-    IconButton(onClick = {passwordVisibility.value = !visible}) {
-        Icons.Default.Close
+fun LoginInButton(
+    modifier: Modifier = Modifier,
+    loading: Boolean = false,
+    validInputs: Boolean = false,
+    loginAction: () -> Unit
+) {
+    Button(
+        modifier = modifier,
+        onClick = loginAction,
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary,
+        ),
+        shape = RoundedCornerShape(size = 4.dp),
+        enabled = !loading && validInputs
+    ) {
+        if (loading) CircularProgressIndicator(modifier = Modifier.size(26.dp))
+        else Text(text = "Log In")
     }
 }
+
 
 @Composable
 private fun TopSection() {

@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.cheapjetshark.navigation.root.NavigationGraph
-import com.example.cheapjetshark.screens.auth.AuthScreen
+import com.example.cheapjetshark.screens.auth.LogInScreen
 import com.example.cheapjetshark.screens.auth.RegistrationScreen
 import com.example.cheapjetshark.screens.splash.SplashScreen
 
@@ -24,7 +24,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             SplashScreen(navController = navController)
         }
         composable(AuthScreens.AuthScreen.name){
-            AuthScreen(navController = navController)
+            LogInScreen(navController = navController)
         }
         composable(AuthScreens.RegistrationScreen.name){
             RegistrationScreen(navController = navController)
