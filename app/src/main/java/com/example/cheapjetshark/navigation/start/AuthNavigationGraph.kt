@@ -11,7 +11,7 @@ import com.example.cheapjetshark.screens.auth.RegistrationScreen
 import com.example.cheapjetshark.screens.splash.SplashScreen
 
 enum class AuthScreens {
-    AuthScreen,
+    LogInScreen,
     RegistrationScreen,
     ResetPasswordScreen,
     SplashScreen
@@ -25,7 +25,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         composable(AuthScreens.SplashScreen.name) {
             SplashScreen(navController = navController)
         }
-        composable(AuthScreens.AuthScreen.name){
+        composable(AuthScreens.LogInScreen.name){
             LogInScreen(navController = navController)
         }
         composable(AuthScreens.RegistrationScreen.name){

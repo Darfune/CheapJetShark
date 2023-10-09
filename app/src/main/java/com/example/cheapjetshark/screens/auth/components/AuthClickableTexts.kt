@@ -15,7 +15,7 @@ import androidx.compose.ui.text.SpanStyle
 fun ForgotPasswordText(modifier: Modifier, resetPasswordAction: (Int) -> Unit) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.Center
     ) {
         ClickableText(
             text = AnnotatedString(

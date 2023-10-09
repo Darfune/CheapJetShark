@@ -1,6 +1,5 @@
 package com.example.cheapjetshark.screens.auth.components
 
-import android.util.Log
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -23,7 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginTextField(
+fun AuthTextFields(
     modifier: Modifier = Modifier,
     valueState: MutableState<String>,
     label: String,
@@ -77,9 +75,10 @@ fun EmailTextField(
     onAction: KeyboardActions = KeyboardActions.Default,
     emailState: MutableState<String>,
     isError: Boolean,
+    focusRequester: FocusRequester,
     loading: Boolean
 ) {
-    LoginTextField(
+    AuthTextFields(
         modifier = modifier,
         label = label,
         valueState = emailState,
@@ -104,18 +103,23 @@ fun PasswordTextField(
     loading: Boolean,
     passwordVisibility: MutableState<Boolean>,
     valid: Boolean,
-    onDone: (String, String) -> Unit
+    imeAction: ImeAction,
+    onDone: (String, String) -> Unit,
+    focusRequester: FocusRequester,
+    onAction: KeyboardActions = KeyboardActions.Default
 ) {
     val visualTransformation =
         if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()
-    LoginTextField(
+    AuthTextFields(
         modifier = modifier,
         label = label,
         valueState = passwordState,
         isError = isError,
         keyboardType = KeyboardType.Password,
-        imeAction = ImeAction.Done,
-        onAction = KeyboardActions {
+        imeAction = imeAction,
+        onAction =
+        KeyboardActions {
+            focusRequester.requestFocus()
             if (!valid) return@KeyboardActions
             onDone(emailState.value.trim(), passwordState.value.trim())
         },

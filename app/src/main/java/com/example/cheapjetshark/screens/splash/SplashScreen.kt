@@ -9,7 +9,7 @@ import com.example.cheapjetshark.navigation.start.AuthScreens
 @Composable
 fun SplashScreen(navController: NavController) {
     Text(text = "Splash Screen")
-    navController.navigate(AuthScreens.AuthScreen.name){
+    navController.navigate(AuthScreens.LogInScreen.name){
         popUpTo(navController.graph.id){
             inclusive = true
         }
