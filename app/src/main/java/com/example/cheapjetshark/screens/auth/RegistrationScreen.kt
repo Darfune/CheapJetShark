@@ -41,8 +41,8 @@ import com.example.cheapjetshark.screens.auth.components.TopSection
 @Composable
 fun RegistrationScreen(
     navController: NavHostController,
+    viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     loading: Boolean = false,
-    isCreatingAccount: Boolean = false,
     onDone: (String, String) -> Unit = { email, password ->
         Log.d(
             "Form",
@@ -65,45 +65,16 @@ fun RegistrationScreen(
     val isError = rememberSaveable {
         mutableStateOf(false)
     }
-    val (passRequest, rePassRequest, buttonRequest) = remember { FocusRequester.createRefs() }
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val valid = remember(email.value, password.value) {
-        email.value.trim().isNotEmpty() && password.value.trim().isNotEmpty()
+    val (passwordFocusRequest, rePasswordFocusRequest, buttonFocusRequest) = remember {
+        FocusRequester.createRefs()
     }
-    RegistrationBody(
-        navController = navController,
-        email = email,
-        password = password,
-        rePassword = rePassword,
-        passwordVisibility = passwordVisibility,
-        isError = isError,
-        passwordFocusRequest = passRequest,
-        rePasswordFocusRequest = rePassRequest,
-        buttonFocusRequest = buttonRequest,
-        keyboardController = keyboardController,
-        valid = valid,
-        loading = loading,
-        onDone = onDone
-    )
-}
 
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun RegistrationBody(
-    navController: NavController = rememberNavController(),
-    email: MutableState<String>,
-    password: MutableState<String>,
-    passwordVisibility: MutableState<Boolean>,
-    isError: MutableState<Boolean>,
-    passwordFocusRequest: FocusRequester,
-    rePasswordFocusRequest: FocusRequester,
-    buttonFocusRequest: FocusRequester,
-    keyboardController: SoftwareKeyboardController?,
-    valid: Boolean,
-    onDone: (String, String) -> Unit,
-    loading: Boolean,
-    rePassword: MutableState<String>
-) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val valid = remember(email.value, password.value, rePassword.value) {
+        email.value.trim().isNotEmpty() && password.value.trim()
+            .isNotEmpty() && rePassword.value.trim()
+            .isNotEmpty() && password.value.trim() == rePassword.value.trim()
+    }
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier
@@ -120,7 +91,9 @@ fun RegistrationBody(
                     .padding(horizontal = 30.dp)
             ) {
                 EmailTextField(
-                    modifier = Modifier.fillMaxWidth().focusProperties { next = passwordFocusRequest },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusProperties { next = passwordFocusRequest },
                     emailState = email,
                     label = "Email",
                     loading = loading,
@@ -128,7 +101,7 @@ fun RegistrationBody(
                     imeAction = ImeAction.Next,
                     focusRequester = passwordFocusRequest,
 
-                )
+                    )
                 Spacer(modifier = Modifier.height(16.dp))
                 PasswordTextField(
                     modifier = Modifier
@@ -139,20 +112,21 @@ fun RegistrationBody(
                     passwordState = password,
                     isError = isError.value,
                     loading = loading,
-                    emailState = email,
                     label = "Password",
                     valid = valid,
                     imeAction = ImeAction.Next,
                     passwordVisibility = passwordVisibility,
-                    onDone = onDone, focusRequester =rePasswordFocusRequest
-                )
+                    focusRequester = rePasswordFocusRequest
+                ) {
+
+                }
+                Spacer(modifier = Modifier.height(16.dp))
                 PasswordTextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxWidth()
                         .focusRequester(rePasswordFocusRequest)
                         .focusProperties { next = buttonFocusRequest },
-                    emailState = email,
                     passwordState = rePassword,
                     isError = rePassword.value != password.value,
                     label = "re: Password",
@@ -160,10 +134,10 @@ fun RegistrationBody(
                     passwordVisibility = passwordVisibility,
                     valid = valid,
                     imeAction = ImeAction.Go,
-                    onDone = onDone,
                     focusRequester = buttonFocusRequest
+                ) {
 
-                )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 AuthButton(
                     modifier = Modifier
@@ -174,11 +148,14 @@ fun RegistrationBody(
                     validInputs = valid
                 ) {
                     if (rePassword.value == password.value) {
-                        onDone(email.value.trim(), password.value.trim())
-                        keyboardController?.hide()
-                        navController.navigate(NavigationGraph.HOME) {
-                            popUpTo(NavigationGraph.AUTH) {
-                                inclusive = true
+                        viewModel.createUserWithEmailAndPass(
+                            email = email.value.trim(),
+                            password = password.value.trim()
+                        ) {
+                            navController.navigate(NavigationGraph.HOME) {
+                                popUpTo(NavigationGraph.AUTH) {
+                                    inclusive = true
+                                }
                             }
                         }
                     }

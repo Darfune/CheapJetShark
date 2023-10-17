@@ -26,7 +26,6 @@ fun AuthTextFields(
     valueState: MutableState<String>,
     label: String,
     enable: Boolean,
-    isSingleLine: Boolean = true,
     isError: Boolean,
     keyboardType: KeyboardType,
     imeAction: ImeAction = ImeAction.Next,
@@ -62,7 +61,7 @@ fun AuthTextFields(
             imeAction = imeAction
         ),
         keyboardActions = onAction,
-        singleLine = isSingleLine,
+        singleLine = true,
         maxLines = 1
     )
 }
@@ -87,7 +86,6 @@ fun EmailTextField(
         imeAction = imeAction,
         onAction = onAction,
         enable = !loading,
-        isSingleLine = true,
         trailingIcon = null
     )
 }
@@ -96,7 +94,6 @@ fun EmailTextField(
 @Composable
 fun PasswordTextField(
     modifier: Modifier,
-    emailState: MutableState<String>,
     passwordState: MutableState<String>,
     isError: Boolean,
     label: String,
@@ -104,9 +101,8 @@ fun PasswordTextField(
     passwordVisibility: MutableState<Boolean>,
     valid: Boolean,
     imeAction: ImeAction,
-    onDone: (String, String) -> Unit,
-    focusRequester: FocusRequester,
-    onAction: KeyboardActions = KeyboardActions.Default
+    focusRequester: FocusRequester = FocusRequester(),
+    onDone: () -> Unit
 ) {
     val visualTransformation =
         if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()
@@ -121,10 +117,8 @@ fun PasswordTextField(
         KeyboardActions {
             focusRequester.requestFocus()
             if (!valid) return@KeyboardActions
-            onDone(emailState.value.trim(), passwordState.value.trim())
         },
         enable = !loading,
-        isSingleLine = true,
         visualTransformation = visualTransformation
     ) {
         PasswordVisibility(passwordVisibility = passwordVisibility)

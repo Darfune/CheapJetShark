@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -22,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -44,7 +44,7 @@ import com.example.cheapjetshark.screens.auth.components.TopSection
 fun LogInScreen(
     navController: NavController,
     loading: Boolean = false,
-    isCreatingAccount: Boolean = false,
+    viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     onDone: (String, String) -> Unit = { email, password ->
         Log.d(
             "Form",
@@ -65,38 +65,12 @@ fun LogInScreen(
     val isError = rememberSaveable {
         mutableStateOf(false)
     }
-    val passwordFocusRequest = remember { FocusRequester() }
+    val (passwordFocusRequest, buttonFocusRequest) = remember { FocusRequester.createRefs() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val valid = remember(email.value, password.value) {
         email.value.trim().isNotEmpty() && password.value.trim().isNotEmpty()
     }
-    LogInBody(
-        navController = navController,
-        email = email,
-        password = password,
-        passwordVisibility = passwordVisibility,
-        isError = isError,
-        passwordFocusRequest = passwordFocusRequest,
-        keyboardController = keyboardController,
-        valid = valid,
-        loading = loading,
-        onDone = onDone
-    )
-}
 
-@Composable
-fun LogInBody(
-    navController: NavController = rememberNavController(),
-    email: MutableState<String>,
-    password: MutableState<String>,
-    passwordVisibility: MutableState<Boolean>,
-    isError: MutableState<Boolean>,
-    passwordFocusRequest: FocusRequester,
-    keyboardController: SoftwareKeyboardController?,
-    valid: Boolean,
-    onDone: (String, String) -> Unit,
-    loading: Boolean
-) {
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier
@@ -121,14 +95,13 @@ fun LogInBody(
                     imeAction = ImeAction.Next,
                     focusRequester = passwordFocusRequest,
 
-                )
+                    )
                 Spacer(modifier = Modifier.height(16.dp))
                 PasswordTextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxWidth()
                         .focusRequester(passwordFocusRequest),
-                    emailState = email,
                     passwordState = password,
                     isError = isError.value,
                     label = "Password",
@@ -136,21 +109,25 @@ fun LogInBody(
                     passwordVisibility = passwordVisibility,
                     valid = valid,
                     imeAction = ImeAction.Go,
-                    onDone = onDone,
-                    focusRequester = passwordFocusRequest
-                )
+                    focusRequester = buttonFocusRequest
+                ){
+
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 AuthButton(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     loading = loading,
                     buttonText = "Log In",
                     validInputs = valid
                 ) {
                     onDone(email.value.trim(), password.value.trim())
                     keyboardController?.hide()
-                    navController.navigate(NavigationGraph.HOME) {
-                        popUpTo(NavigationGraph.AUTH) {
-                            inclusive = true
+                    viewModel.signInWithEmailAndPass(email = email.value.trim(), password = password.value.trim()){
+                        navController.navigate(NavigationGraph.HOME) {
+                            popUpTo(NavigationGraph.AUTH) {
+                                inclusive = true
+                            }
                         }
                     }
                 }
