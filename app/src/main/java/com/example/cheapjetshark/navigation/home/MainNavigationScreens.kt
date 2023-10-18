@@ -26,11 +26,11 @@ sealed class MainNavigationScreens(
         hasNews = false
     )
 
-    data object Settings : MainNavigationScreens(
-        name = "settings",
-        title = "Settings",
-        selectedIcon = R.drawable.selected_settings_nav_item,
-        unselectedIcon = R.drawable.unselected_settings_nav_item,
+    data object Favorites : MainNavigationScreens(
+        name = "favorites",
+        title = "Favorites",
+        selectedIcon = R.drawable.selected_favorites_item,
+        unselectedIcon = R.drawable.unselected_favorites_item,
         hasNews = false
     )
 }

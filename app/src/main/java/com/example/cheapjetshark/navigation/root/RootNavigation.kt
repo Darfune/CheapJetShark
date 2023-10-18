@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.cheapjetshark.navigation.start.authNavGraph
 import com.example.cheapjetshark.screens.main.MainScreen
+import com.example.cheapjetshark.screens.splash.SplashScreen
 
 @Composable
 fun CheapJetSharkNavigation(navController: NavHostController) {
@@ -17,6 +19,9 @@ fun CheapJetSharkNavigation(navController: NavHostController) {
         authNavGraph(navController = navController)
         composable(route = NavigationGraph.HOME){
             MainScreen()
+        }
+        composable(route = NavigationGraph.AUTH){
+            SplashScreen(navController = navController)
         }
 
     }

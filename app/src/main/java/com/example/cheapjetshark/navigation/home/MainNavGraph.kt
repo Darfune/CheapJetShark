@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.cheapjetshark.navigation.root.NavigationGraph
 import com.example.cheapjetshark.screens.main.MainViewModel
+import com.example.cheapjetshark.screens.main.favorites.FavoritesScreen
 import com.example.cheapjetshark.screens.main.home.HomeScreen
 import com.example.cheapjetshark.screens.main.settings.SettingsScreen
 import com.example.cheapjetshark.screens.main.stores.StoresScreen
@@ -26,9 +27,9 @@ fun HomeNavGraph(navController: NavHostController) {
             val mainViewModel = hiltViewModel<MainViewModel>()
             StoresScreen(navController = navController, mainViewModel)
         }
-        composable(route = MainNavigationScreens.Settings.name){
+        composable(route = MainNavigationScreens.Favorites.name){
             val mainViewModel = hiltViewModel<MainViewModel>()
-            SettingsScreen(navController = navController, mainViewModel)
+            FavoritesScreen(navController = navController, mainViewModel)
         }
     }
 }

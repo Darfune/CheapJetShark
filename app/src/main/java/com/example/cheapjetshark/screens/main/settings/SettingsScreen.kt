@@ -8,8 +8,7 @@ import com.example.cheapjetshark.screens.main.MainViewModel
 
 @Composable
 fun SettingsScreen(
-    navController: NavController,
-    viewModel: MainViewModel = hiltViewModel()
+    navController: NavController
 ) {
     Text(text = "Settings Screen")
 }
