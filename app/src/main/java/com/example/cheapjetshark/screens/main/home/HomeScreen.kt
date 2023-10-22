@@ -16,6 +16,6 @@ fun HomeScreen(
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
 
-        Text(text = "Main Screen")
+        Text(text = "Home Screen")
     }
 }

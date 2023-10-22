@@ -1,15 +1,11 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.cheapjetshark.screens.main
+package com.example.cheapjetshark.navigation.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,10 +22,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -38,35 +32,39 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.example.cheapjetshark.R
-import com.example.cheapjetshark.navigation.bottombar.HomeNavGraph
-import com.example.cheapjetshark.navigation.bottombar.MainNavigationScreens
+import com.example.cheapjetshark.navigation.bottombar.HomeNavigationScreens
 import com.example.cheapjetshark.navigation.root.NavigationGraph
+import com.example.cheapjetshark.screens.main.MainViewModel
 import com.example.cheapjetshark.screens.main.components.FABContent
+import com.example.cheapjetshark.screens.main.favorites.FavoritesScreen
+import com.example.cheapjetshark.screens.main.home.HomeScreen
+import com.example.cheapjetshark.screens.main.stores.StoresScreen
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(
-    navController: NavHostController = rememberNavController(),
-    viewModel: MainViewModel = hiltViewModel()
-) {
+fun NavGraphBuilder.MainScreen(
 
+) {
+    val navController: NavHostController = rememberNavController()
+    val viewModel: MainViewModel = hiltViewModel()
     val items = listOf(
-        MainNavigationScreens.Main,
-        MainNavigationScreens.Stores,
-        MainNavigationScreens.Favorites,
+        HomeNavigationScreens.Home,
+        HomeNavigationScreens.Stores,
+        HomeNavigationScreens.Favorites,
     )
     var showProfilePic by rememberSaveable {
         mutableStateOf(true)
@@ -171,7 +169,29 @@ fun MainScreen(
         },
 //        snackbarHost = {},
         floatingActionButton = { FABContent() },
-    ) {
-        HomeNavGraph(navController = navController)
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = NavigationGraph.HOME,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            navigation(
+                startDestination = HomeNavigationScreens.Home.name,
+                route = NavigationGraph.HOME
+            ) {
+                composable(route = HomeNavigationScreens.Home.name) {
+                    val mainViewModel = hiltViewModel<MainViewModel>()
+                    HomeScreen(navController = navController, mainViewModel)
+                }
+                composable(route = HomeNavigationScreens.Stores.name) {
+                    val mainViewModel = hiltViewModel<MainViewModel>()
+                    StoresScreen(navController = navController, mainViewModel)
+                }
+                composable(route = HomeNavigationScreens.Favorites.name) {
+                    val mainViewModel = hiltViewModel<MainViewModel>()
+                    FavoritesScreen(navController = navController, mainViewModel)
+                }
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.cheapjetshark.navigation.start
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.cheapjetshark.navigation.root.NavigationGraph
