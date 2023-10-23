@@ -117,9 +117,7 @@ fun RegistrationScreen(
                     imeAction = ImeAction.Next,
                     passwordVisibility = passwordVisibility,
                     focusRequester = rePasswordFocusRequest
-                ) {
-
-                }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 PasswordTextField(
                     modifier = Modifier
@@ -135,9 +133,7 @@ fun RegistrationScreen(
                     valid = valid,
                     imeAction = ImeAction.Go,
                     focusRequester = buttonFocusRequest
-                ) {
-
-                }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 AuthButton(
                     modifier = Modifier

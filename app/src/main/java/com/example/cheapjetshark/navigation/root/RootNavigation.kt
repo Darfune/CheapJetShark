@@ -23,7 +23,7 @@ fun CheapJetSharkNavigation(navController: NavHostController) {
         }
         authNavGraph(navController = navController)
         composable(route = NavigationGraph.HOME) {
-            MainScreen()
+            MainScreen(rootNavController = navController)
         }
 
     }

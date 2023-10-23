@@ -21,11 +21,8 @@ enum class AuthScreens {
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation(
         route = NavigationGraph.AUTH,
-        startDestination = AuthScreens.SplashScreen.name
+        startDestination = AuthScreens.LogInScreen.name
     ) {
-        composable(AuthScreens.SplashScreen.name) {
-            SplashScreen(navController = navController)
-        }
         composable(AuthScreens.LogInScreen.name){
             LogInScreen(navController = navController)
         }

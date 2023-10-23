@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -57,9 +58,9 @@ import com.google.firebase.auth.FirebaseAuth
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NavGraphBuilder.MainScreen(
-
+    rootNavController: NavController
 ) {
-    val navController: NavHostController = rememberNavController()
+    val homeNavController: NavHostController = rememberNavController()
     val viewModel: MainViewModel = hiltViewModel()
     val items = listOf(
         HomeNavigationScreens.Home,
@@ -73,7 +74,7 @@ fun NavGraphBuilder.MainScreen(
         mutableIntStateOf(0)
     }
     val username = "User1"
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
     val bottomBarDestination = items.any { it.name == currentDestination?.route }
@@ -110,7 +111,11 @@ fun NavGraphBuilder.MainScreen(
                 actions = {
                     IconButton(onClick = {
                         FirebaseAuth.getInstance().signOut().run {
-
+                            rootNavController.navigate(NavigationGraph.AUTH) {
+                                popUpTo(NavigationGraph.HOME) {
+                                    inclusive = true
+                                }
+                            }
                         }
                     }) {
                         Icon(imageVector = Icons.Filled.ExitToApp, contentDescription = "Log Out")
@@ -135,8 +140,8 @@ fun NavGraphBuilder.MainScreen(
                             selected = selectedItemIndex == index,
                             onClick = {
                                 selectedItemIndex = index
-                                navController.navigate(item.name) {
-                                    popUpTo(navController.graph.findStartDestination().id)
+                                homeNavController.navigate(item.name) {
+                                    popUpTo(homeNavController.graph.findStartDestination().id)
                                     launchSingleTop = true
                                 }
                             },
@@ -171,7 +176,7 @@ fun NavGraphBuilder.MainScreen(
         floatingActionButton = { FABContent() },
     ) { innerPadding ->
         NavHost(
-            navController = navController,
+            navController = homeNavController,
             startDestination = NavigationGraph.HOME,
             modifier = Modifier.padding(innerPadding)
         ) {
@@ -181,15 +186,15 @@ fun NavGraphBuilder.MainScreen(
             ) {
                 composable(route = HomeNavigationScreens.Home.name) {
                     val mainViewModel = hiltViewModel<MainViewModel>()
-                    HomeScreen(navController = navController, mainViewModel)
+                    HomeScreen(navController = homeNavController, mainViewModel)
                 }
                 composable(route = HomeNavigationScreens.Stores.name) {
                     val mainViewModel = hiltViewModel<MainViewModel>()
-                    StoresScreen(navController = navController, mainViewModel)
+                    StoresScreen(navController = homeNavController, mainViewModel)
                 }
                 composable(route = HomeNavigationScreens.Favorites.name) {
                     val mainViewModel = hiltViewModel<MainViewModel>()
-                    FavoritesScreen(navController = navController, mainViewModel)
+                    FavoritesScreen(navController = homeNavController, mainViewModel)
                 }
             }
         }
