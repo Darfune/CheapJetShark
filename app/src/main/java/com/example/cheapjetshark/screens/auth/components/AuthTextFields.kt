@@ -101,8 +101,7 @@ fun PasswordTextField(
     passwordVisibility: MutableState<Boolean>,
     valid: Boolean,
     imeAction: ImeAction,
-    focusRequester: FocusRequester = FocusRequester(),
-    onDone: () -> Unit
+    focusRequester: FocusRequester = FocusRequester()
 ) {
     val visualTransformation =
         if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()
@@ -113,11 +112,6 @@ fun PasswordTextField(
         isError = isError,
         keyboardType = KeyboardType.Password,
         imeAction = imeAction,
-        onAction =
-        KeyboardActions {
-            focusRequester.requestFocus()
-            if (!valid) return@KeyboardActions
-        },
         enable = !loading,
         visualTransformation = visualTransformation
     ) {

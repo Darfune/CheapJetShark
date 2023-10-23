@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CheapJetShark</string>
+    <string name="fb_net_error">A network error (such as timeout, interrupted connection or unreachable host) has occurred.</string>
+    <string name="credentials_don_t_must_try_again">Credentials don\'t must, try again!</string>
+    <string name="the_email_address_is_badly_formatted">The email address is badly formatted.</string>
+    <string name="unknown_error_occurred">Unknown Error Occurred</string>
 </resources>
