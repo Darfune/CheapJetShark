@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +39,7 @@ import com.example.cheapjetshark.screens.auth.components.EmailTextField
 import com.example.cheapjetshark.screens.auth.components.PasswordTextField
 import com.example.cheapjetshark.screens.auth.components.SignInOrLogInText
 import com.example.cheapjetshark.screens.auth.components.TopSection
+import com.example.cheapjetshark.utils.rememberImeState
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -43,13 +47,16 @@ fun RegistrationScreen(
     navController: NavHostController,
     viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     loading: Boolean = false,
-    onDone: (String, String) -> Unit = { email, password ->
-        Log.d(
-            "Form",
-            "LogInScreen: $email $password"
-        )
-    }
 ) {
+    val imeState = rememberImeState()
+    val scrollState = rememberScrollState()
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value) {
+            scrollState.scrollTo(scrollState.maxValue)
+        }
+    }
+
+
     val email = rememberSaveable {
         mutableStateOf("")
     }
@@ -69,13 +76,17 @@ fun RegistrationScreen(
         FocusRequester.createRefs()
     }
 
-    val keyboardController = LocalSoftwareKeyboardController.current
     val valid = remember(email.value, password.value, rePassword.value) {
         email.value.trim().isNotEmpty() && password.value.trim()
             .isNotEmpty() && rePassword.value.trim()
             .isNotEmpty() && password.value.trim() == rePassword.value.trim()
     }
-    Surface(color = MaterialTheme.colorScheme.background) {
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState),
+        color = MaterialTheme.colorScheme.background
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

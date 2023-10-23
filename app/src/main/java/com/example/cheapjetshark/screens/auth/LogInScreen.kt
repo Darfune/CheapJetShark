@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,6 +42,7 @@ import com.example.cheapjetshark.screens.auth.components.PasswordTextField
 import com.example.cheapjetshark.screens.auth.components.SignInOrLogInText
 import com.example.cheapjetshark.screens.auth.components.TopSection
 import com.example.cheapjetshark.utils.Constants
+import com.example.cheapjetshark.utils.rememberImeState
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -48,6 +52,13 @@ fun LogInScreen(
     loading: Boolean = false,
     viewModel: AuthViewModel = hiltViewModel(),
 ) {
+    val imeState = rememberImeState()
+    val scrollState = rememberScrollState()
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value) {
+            scrollState.scrollTo(scrollState.maxValue)
+        }
+    }
 
     val email = rememberSaveable {
         mutableStateOf("")
@@ -73,7 +84,14 @@ fun LogInScreen(
         email.value.trim().isNotEmpty() && password.value.trim().isNotEmpty()
     }
 
-    Surface(color = MaterialTheme.colorScheme.background) {
+
+
+    Surface(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState),
+        color = MaterialTheme.colorScheme.background
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -88,7 +106,7 @@ fun LogInScreen(
                     .fillMaxSize()
                     .padding(horizontal = 30.dp)
             ) {
-                if (authErrorMessageVisibility.value){
+                if (authErrorMessageVisibility.value) {
                     DisplayErrorMessage(authErrorMessage.value)
                 }
                 EmailTextField(
