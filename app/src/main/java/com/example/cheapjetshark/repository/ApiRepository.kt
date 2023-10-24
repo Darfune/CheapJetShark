@@ -28,6 +28,7 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
         lowerPrice: Int? = null,
         sortBy: String? = null,
         pageNumber: Int? = null,
+        pageSize: Int? = null,
         title: String? = null
     ): DataOrException<DealsList, Boolean, Exception> {
         val response = try {
@@ -37,6 +38,7 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
                 lowerPrice = lowerPrice,
                 sortBy = sortBy,
                 pageNumber = pageNumber,
+                pageSize = pageSize,
                 title = title
             )
         } catch (exc: Exception) {
