@@ -1,11 +1,10 @@
 package com.example.cheapjetshark.screens.splash
 
-import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.cheapjetshark.navigation.root.NavigationGraph
-import com.example.cheapjetshark.navigation.start.AuthScreens
+import com.example.cheapjetshark.navigation.auth.AuthScreens
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable

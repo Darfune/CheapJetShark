@@ -172,7 +172,6 @@ fun NavGraphBuilder.MainScreen(
                 }
             }
         },
-//        snackbarHost = {},
         floatingActionButton = { FABContent() },
     ) { innerPadding ->
         NavHost(

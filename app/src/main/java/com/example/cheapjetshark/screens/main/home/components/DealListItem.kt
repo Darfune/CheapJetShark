@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,7 +36,7 @@ import com.example.cheapjetshark.ui.theme.onSaleColor
 
 @Composable
 fun DealListItem(
-    deal: DealsListItem, onPressDeal: (String) -> Unit = {}
+    modifier: Modifier, deal: DealsListItem, onDealPressed: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
     val screenWidth =
@@ -44,11 +45,11 @@ fun DealListItem(
     Surface(
         shape = RoundedCornerShape(29.dp),
         tonalElevation = 1.dp,
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp)
             .height(242.dp)
             .width(202.dp)
-            .clickable { onPressDeal.invoke(deal.dealID) }
+            .clickable { onDealPressed.invoke(deal.dealID) }
     ) {
         Column(
             modifier = Modifier.width(screenWidth.dp - (spacing * 2)),
@@ -81,7 +82,7 @@ fun DealListItem(
                 text = deal.title,
                 modifier = Modifier.padding(4.dp),
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -95,8 +96,10 @@ fun DealListItem(
 
             }
         }
-        Row(horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.Bottom) {
+        Row(
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.Bottom
+        ) {
             if (deal.isOnSale == "1")
                 OnSaleRoundedIcon(text = "On Sale", color = onSaleColor)
             else
@@ -119,16 +122,17 @@ fun OnSaleRoundedIcon(text: String, color: Color) {
     ) {
         Column(
             modifier = Modifier
-                .width(100.dp)
+//                .width(100.dp),
                 .heightIn(40.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.padding(end = 8.dp, start = 2.dp)
+                )
         }
     }
 }

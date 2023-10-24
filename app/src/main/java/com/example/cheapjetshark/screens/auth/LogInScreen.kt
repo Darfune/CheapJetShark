@@ -3,7 +3,6 @@
 package com.example.cheapjetshark.screens.auth
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.cheapjetshark.R
 import com.example.cheapjetshark.navigation.root.NavigationGraph
-import com.example.cheapjetshark.navigation.start.AuthScreens
+import com.example.cheapjetshark.navigation.auth.AuthScreens
 import com.example.cheapjetshark.screens.auth.components.AuthButton
 import com.example.cheapjetshark.screens.auth.components.EmailTextField
 import com.example.cheapjetshark.screens.auth.components.ForgotPasswordText
