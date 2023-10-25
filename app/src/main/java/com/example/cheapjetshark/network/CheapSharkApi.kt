@@ -21,7 +21,8 @@ interface CheapSharkApi {
         @Query("sortBy") sortBy: String? = null,
         @Query("pageNumber") pageNumber: Int? = null,
         @Query("pageSize") pageSize: Int? = null,
-        @Query("title") title: String? = null
+        @Query("title") title: String? = null,
+        @Query("onSale") onSale: Boolean? = null
     ): DealsList
 
     @GET(value = "deals")

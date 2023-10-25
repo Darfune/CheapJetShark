@@ -14,16 +14,46 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val apiRepository: ApiRepository) : ViewModel() {
-    private val _newest20DealsList: MutableLiveData<DataOrException<DealsList, Boolean, Exception>> = MutableLiveData(
-        DataOrException(null, true, Exception(""))
-    )
-    val newest20DealsList: LiveData<DataOrException<DealsList, Boolean, Exception>> = _newest20DealsList
+    private val _newest20DealsList: MutableLiveData<DataOrException<DealsList, Boolean, Exception>> =
+        MutableLiveData(
+            DataOrException(null, true, Exception(""))
+        )
+    val newest20DealsList: LiveData<DataOrException<DealsList, Boolean, Exception>> =
+        _newest20DealsList
 
-    init {
-        viewModelScope.launch { getListOfDeals(sortBy = "Recent", pageSize = 20) }
+    private val _topDealsList: MutableLiveData<DataOrException<DealsList, Boolean, Exception>> =
+        MutableLiveData(
+            DataOrException(null, true, Exception(""))
+        )
+    val topDealsList: LiveData<DataOrException<DealsList, Boolean, Exception>> = _topDealsList
+
+    private val _topGamesDealsList: MutableLiveData<DataOrException<DealsList, Boolean, Exception>> =
+        MutableLiveData(
+            DataOrException(null, true, Exception(""))
+        )
+    val topGamesDealsList: LiveData<DataOrException<DealsList, Boolean, Exception>> =
+        _topGamesDealsList
+
+
+    fun getTopDealsList() {
+        viewModelScope.launch {
+            _topDealsList.value = getDeals(sortBy = "Deal Rating", pageSize = 20)
+        }
     }
 
-    private suspend fun getListOfDeals(
+    fun getTopGamesDealsList() {
+        viewModelScope.launch {
+            _topGamesDealsList.value = getDeals(sortBy = "Reviews", pageSize = 20)
+        }
+    }
+
+    fun getNewest20DealsList() {
+        viewModelScope.launch {
+            _newest20DealsList.value = getDeals(sortBy = "Recent", pageSize = 20)
+        }
+    }
+
+    private suspend fun getDeals(
         storeID: Int? = null,
         upperPrice: Int? = null,
         lowerPrice: Int? = null,
@@ -32,7 +62,7 @@ class MainViewModel @Inject constructor(private val apiRepository: ApiRepository
         pageSize: Int? = null,
         title: String? = null
     ): DataOrException<DealsList, Boolean, Exception> {
-        _newest20DealsList.value = apiRepository.getListOfDeals(
+        val dealsList = apiRepository.getListOfDeals(
             storeID = storeID,
             upperPrice = upperPrice,
             lowerPrice = lowerPrice,
@@ -41,8 +71,10 @@ class MainViewModel @Inject constructor(private val apiRepository: ApiRepository
             pageSize = pageSize,
             title = title
         )
-        Log.d("MainViewModel", "getListOfDeals: ${_newest20DealsList.value!!.data!!.size}")
-        return _newest20DealsList.value!!
+        dealsList.loading = false
+        Log.d("MainViewModel", "getDeals: ${dealsList.loading}")
+        return dealsList
     }
+
 
 }
