@@ -7,18 +7,19 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.cheapjetshark.R
 
-@Preview
 @Composable
-fun FABContent() {
+fun FABContent(onSearch: () -> Unit) {
     FloatingActionButton(
-        onClick = { /*TODO*/ },
+        onClick = onSearch ,
         shape = RoundedCornerShape(50.dp),
         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
         contentColor = MaterialTheme.colorScheme.onTertiaryContainer
     ) {
-        Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
+        Icon(painter = painterResource(id = R.drawable.ic_search), contentDescription = "Search Icon")
     }
 }

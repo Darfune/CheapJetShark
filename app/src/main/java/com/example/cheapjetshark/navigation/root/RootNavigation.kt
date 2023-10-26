@@ -6,7 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.cheapjetshark.navigation.auth.authNavGraph
 import com.example.cheapjetshark.navigation.home.MainScreen
-import com.example.cheapjetshark.screens.derails.DetailsScreen
+import com.example.cheapjetshark.screens.details.DetailsScreen
+import com.example.cheapjetshark.screens.search.SearchScreen
 import com.example.cheapjetshark.screens.splash.SplashScreen
 @Composable
 fun CheapJetSharkNavigation(navController: NavHostController) {
@@ -25,7 +26,9 @@ fun CheapJetSharkNavigation(navController: NavHostController) {
         composable(route = NavigationGraph.DETAILS){
             DetailsScreen(navController = navController)
         }
-
+        composable(route = NavigationGraph.SEARCH){
+            SearchScreen(navController = navController)
+        }
     }
 }
 
@@ -35,5 +38,6 @@ object NavigationGraph {
     const val AUTH = "auth_graph"
     const val HOME = "home_graph"
     const val DETAILS = "details_graph"
+    const val SEARCH = "search_graph"
 }
 

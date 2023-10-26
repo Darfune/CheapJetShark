@@ -1,6 +1,5 @@
-package com.example.cheapjetshark.screens.derails
+package com.example.cheapjetshark.screens.details
 
-import android.telecom.Call.Details
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

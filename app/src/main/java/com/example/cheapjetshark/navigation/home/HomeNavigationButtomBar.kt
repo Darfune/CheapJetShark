@@ -61,7 +61,6 @@ fun NavGraphBuilder.MainScreen(
     rootNavController: NavController
 ) {
     val homeNavController: NavHostController = rememberNavController()
-    val viewModel: MainViewModel = hiltViewModel()
     val items = listOf(
         HomeNavigationScreens.Home,
         HomeNavigationScreens.Stores,
@@ -172,7 +171,11 @@ fun NavGraphBuilder.MainScreen(
                 }
             }
         },
-        floatingActionButton = { FABContent() },
+        floatingActionButton = {
+            if (selectedItemIndex == 0) FABContent {
+                rootNavController.navigate(NavigationGraph.SEARCH)
+            }
+        },
     ) { innerPadding ->
         NavHost(
             navController = homeNavController,
