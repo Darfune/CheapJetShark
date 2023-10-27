@@ -17,31 +17,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.cheapjetshark.data.DataOrException
 import com.example.cheapjetshark.models.deals.DealsList
-import com.example.cheapjetshark.screens.main.MainViewModel
 import com.example.cheapjetshark.screens.main.home.components.DealListItem
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val columnScrollState = rememberScrollState()
 
-    if (viewModel.newest20DealsList.value?.data.isNullOrEmpty()){
-        viewModel.getNewest20DealsList()
-    }
-
-    if (viewModel.topDealsList.value?.data.isNullOrEmpty()){
-        viewModel.getTopDealsList()
-    }
-
-    if (viewModel.topGamesDealsList.value?.data.isNullOrEmpty()){
-        viewModel.getTopGamesDealsList()
-    }
+//    if (viewModel.newest20DealsList.value?.data.isNullOrEmpty()){
+//        viewModel.getNewest20DealsList()
+//    }
+//
+//    if (viewModel.topDealsList.value?.data.isNullOrEmpty()){
+//        viewModel.getTopDealsList()
+//    }
+//
+//    if (viewModel.topGamesDealsList.value?.data.isNullOrEmpty()){
+//        viewModel.getTopGamesDealsList()
+//    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.verticalScroll(columnScrollState)) {
