@@ -1,6 +1,7 @@
 package com.example.cheapjetshark.navigation.root
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -8,6 +9,7 @@ import com.example.cheapjetshark.navigation.auth.authNavGraph
 import com.example.cheapjetshark.navigation.home.MainScreen
 import com.example.cheapjetshark.screens.details.DetailsScreen
 import com.example.cheapjetshark.screens.search.SearchScreen
+import com.example.cheapjetshark.screens.search.SearchViewModel
 import com.example.cheapjetshark.screens.splash.SplashScreen
 @Composable
 fun CheapJetSharkNavigation(navController: NavHostController) {
@@ -27,7 +29,8 @@ fun CheapJetSharkNavigation(navController: NavHostController) {
             DetailsScreen(navController = navController)
         }
         composable(route = NavigationGraph.SEARCH){
-            SearchScreen(navController = navController)
+            val searchViewModel = hiltViewModel<SearchViewModel>()
+            SearchScreen(navController = navController, searchViewModel)
         }
     }
 }

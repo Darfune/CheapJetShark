@@ -1,4 +1,4 @@
-package com.example.cheapjetshark.screens.main
+package com.example.cheapjetshark.screens.main.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val apiRepository: ApiRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val apiRepository: ApiRepository) : ViewModel() {
     private val _newest20DealsList: MutableLiveData<DataOrException<DealsList, Boolean, Exception>> =
         MutableLiveData(
             DataOrException(null, true, Exception(""))
@@ -72,7 +72,7 @@ class MainViewModel @Inject constructor(private val apiRepository: ApiRepository
             title = title
         )
         dealsList.loading = false
-        Log.d("MainViewModel", "getDeals: ${dealsList.loading}")
+        Log.d("HomeViewModel", "getDeals: ${dealsList.loading}")
         return dealsList
     }
 
