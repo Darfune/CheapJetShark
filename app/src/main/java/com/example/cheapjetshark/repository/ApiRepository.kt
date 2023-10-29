@@ -1,7 +1,7 @@
 package com.example.cheapjetshark.repository
 
 import android.util.Log
-import com.example.cheapjetshark.data.DataOrException
+import com.example.cheapjetshark.data.Resource
 import com.example.cheapjetshark.models.deal.Deal
 import com.example.cheapjetshark.models.deals.DealsList
 import com.example.cheapjetshark.models.gamesbyid.GamesById
@@ -12,14 +12,16 @@ import com.example.cheapjetshark.network.CheapSharkApi
 import javax.inject.Inject
 
 class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
-    suspend fun getDealById(id: String): DataOrException<Deal, Boolean, Exception> {
+    suspend fun getDealById(id: String): Resource<Deal> {
         val response = try {
+            Resource.Loading(data = true)
             api.getDealById(id = id)
         } catch (exc: Exception) {
             Log.d("Api Repository", "getDealById: $exc")
-            return DataOrException(e = exc)
+            return Resource.Error(message = exc.toString())
         }
-        return DataOrException(data = response)
+        Resource.Loading(data = false)
+        return Resource.Success(data = response)
     }
 
     suspend fun getListOfDeals(
@@ -30,8 +32,9 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
         pageNumber: Int? = null,
         pageSize: Int? = null,
         title: String? = null
-    ): DataOrException<DealsList, Boolean, Exception> {
-        val response = try {
+    ): Resource<DealsList> {
+        val response =  try {
+            Resource.Loading(true)
             api.getListOfDeals(
                 storeID = storeID,
                 upperPrice = upperPrice,
@@ -41,56 +44,65 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
                 pageSize = pageSize,
                 title = title
             )
+
         } catch (exc: Exception) {
             Log.d("Api Repository", "getListOfDeals: $exc")
-            return DataOrException(e = exc)
+            return Resource.Error(message = exc.toString())
         }
-        return DataOrException(data = response)
+        Resource.Loading(false)
+        return Resource.Success(data = response)
     }
 
-    suspend fun getGamesBySearch(title: String): DataOrException<GamesBySearch, Boolean, Exception> {
+    suspend fun getGamesBySearch(title: String): Resource<GamesBySearch> {
         val response = try {
+            Resource.Loading(true)
             api.getGamesBySearch(
                 title = title
             )
         } catch (exc: Exception) {
             Log.d("Api Repository", "getGamesBySearch: $exc")
-            return DataOrException(e = exc)
+            return Resource.Error(message = exc.toString())
         }
-        return DataOrException(data = response)
+        Resource.Loading(false)
+        return Resource.Success(data = response)
     }
 
-    suspend fun getGamesById(id: String): DataOrException<GamesById, Boolean, Exception> {
+    suspend fun getGamesById(id: String): Resource<GamesById> {
         val response = try {
+            Resource.Loading(true)
             api.getGamesById(
                 id = id
             )
         } catch (exc: Exception) {
             Log.d("Api Repository", "getGamesById: $exc")
-            return DataOrException(e = exc)
+            return Resource.Error(message = exc.toString())
         }
-        return DataOrException(data = response)
+        Resource.Loading(false)
+        return Resource.Success(data = response)
     }
 
-    suspend fun getStores(): DataOrException<Stores, Boolean, Exception> {
+    suspend fun getStores(): Resource<Stores> {
         val response = try {
+            Resource.Loading(true)
             api.getStores()
         } catch (exc: Exception) {
             Log.d("Api Repository", "getStores: $exc")
-            return DataOrException(e = exc)
+            return Resource.Error(message = exc.toString())
         }
-        Log.d("Api Repository", "getStores: $response")
-        return DataOrException(data = response)
+        Resource.Loading(false)
+        return Resource.Success(data = response)
     }
 
-    suspend fun getLastChanges(): DataOrException<StoresLastChange, Boolean, Exception> {
+    suspend fun getLastChanges(): Resource<StoresLastChange> {
         val response = try {
+            Resource.Loading(true)
             api.getLastChanges()
         } catch (exc: Exception) {
             Log.d("Api Repository", "getLastChanges: $exc")
-            return DataOrException(e = exc)
+            return Resource.Error(message = exc.toString())
         }
-        return DataOrException(data = response)
+        Resource.Loading(false)
+        return Resource.Success(data = response)
     }
 
 }

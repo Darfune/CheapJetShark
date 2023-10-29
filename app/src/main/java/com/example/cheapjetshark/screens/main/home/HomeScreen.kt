@@ -45,20 +45,17 @@ fun HomeScreen(
             NewestDealsArea(
                 navController,
                 listOfDeals = viewModel.newest20DealsList.value?.data,
-                loading = viewModel.newest20DealsList.value?.loading
             ) {
             }
             TopDealsArea(
                 navController,
-                listOfDeals = viewModel.topDealsList.value?.data,
-                loading = viewModel.topDealsList.value?.loading
+                listOfDeals = viewModel.topDealsList.value?.data
             ) {
 
             }
             TopGamesDealsArea(
                 navController,
-                listOfDeals = viewModel.topGamesDealsList.value?.data,
-                loading = viewModel.topGamesDealsList.value?.loading
+                listOfDeals = viewModel.topGamesDealsList.value?.data
             ) {
 
             }
@@ -70,7 +67,6 @@ fun HomeScreen(
 fun TopGamesDealsArea(
     navController: NavController,
     listOfDeals: DealsList?,
-    loading: Boolean?,
     onDealPressed: (String) -> Unit
 ) {
     val scrollState3 = rememberScrollState()
@@ -98,7 +94,6 @@ fun TopGamesDealsArea(
 fun TopDealsArea(
     navController: NavController,
     listOfDeals: DealsList?,
-    loading: Boolean?,
     onDealPressed: (String) -> Unit
 ) {
     val scrollState2 = rememberScrollState()
@@ -127,7 +122,6 @@ fun TopDealsArea(
 fun NewestDealsArea(
     navController: NavController,
     listOfDeals: DealsList?,
-    loading: Boolean?,
     onDealPressed: (String) -> Unit
 ) {
     val scrollState1 = rememberScrollState()
