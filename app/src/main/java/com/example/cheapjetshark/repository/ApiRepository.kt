@@ -5,7 +5,7 @@ import com.example.cheapjetshark.data.Resource
 import com.example.cheapjetshark.models.deal.Deal
 import com.example.cheapjetshark.models.deals.DealsList
 import com.example.cheapjetshark.models.gamesbyid.GamesById
-import com.example.cheapjetshark.models.gamesbysearch.GamesBySearch
+import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
 import com.example.cheapjetshark.models.lastChange.StoresLastChange
 import com.example.cheapjetshark.models.stores.Stores
 import com.example.cheapjetshark.network.CheapSharkApi
@@ -53,7 +53,7 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
         return Resource.Success(data = response)
     }
 
-    suspend fun getGamesBySearch(title: String): Resource<GamesBySearch> {
+    suspend fun getGamesBySearch(title: String): Resource<List<GamesBySearchItem>> {
         val response = try {
             Resource.Loading(true)
             api.getGamesBySearch(

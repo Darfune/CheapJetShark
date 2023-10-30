@@ -1,5 +1,6 @@
 package com.example.cheapjetshark.screens.search.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,8 @@ import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
 
 @Composable
 fun SearchGameRow(game: GamesBySearchItem, onClick: () -> Unit) {
+
+    Log.d("is called", "SearchGameRow: $game")
     Surface(
         modifier = Modifier
             .clickable { onClick() }
@@ -47,7 +50,7 @@ fun SearchGameRow(game: GamesBySearchItem, onClick: () -> Unit) {
                     model = game.thumb,
                     placeholder = painterResource(R.drawable.ic_temp_game_placeholder),
                     contentDescription = "Game Image",
-                    contentScale = ContentScale.Inside,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth(0.3f)
                         .fillMaxHeight()

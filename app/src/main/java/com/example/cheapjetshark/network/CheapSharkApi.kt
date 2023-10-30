@@ -3,7 +3,7 @@ package com.example.cheapjetshark.network
 import com.example.cheapjetshark.models.deal.Deal
 import com.example.cheapjetshark.models.deals.DealsList
 import com.example.cheapjetshark.models.gamesbyid.GamesById
-import com.example.cheapjetshark.models.gamesbysearch.GamesBySearch
+import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
 import com.example.cheapjetshark.models.lastChange.StoresLastChange
 import com.example.cheapjetshark.models.stores.Stores
 import retrofit2.http.GET
@@ -33,7 +33,7 @@ interface CheapSharkApi {
     @GET(value = "games")
     suspend fun getGamesBySearch(
         @Query("title") title: String
-    ): GamesBySearch
+    ): List<GamesBySearchItem>
 
     @GET(value = "games")
     suspend fun getGamesById(
