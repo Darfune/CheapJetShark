@@ -23,27 +23,33 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val apiRepository: ApiRepository) : ViewModel() {
 
     var searchTitle: List<GamesBySearchItem> by mutableStateOf(listOf())
+    var isLoading: Boolean by mutableStateOf(true)
     init {
         getSearchedTitle("")
+        isLoading = false
     }
 
     fun getSearchedTitle(title: String) {
+        isLoading = true
         viewModelScope.launch(Dispatchers.Default) {
             if (title.isEmpty()) return@launch
             try {
                 when (val response = apiRepository.getGamesBySearch(title = title)) {
                     is Resource.Success -> {
                         searchTitle = response.data!!
+                        if (searchTitle.isNotEmpty()) isLoading = false
                         Log.d("HomeViewModel", "getTheNewest20DealsList: ${response.data}")
                     }
 
                     is Resource.Error -> {
+                        if (searchTitle.isNotEmpty()) isLoading = false
                         Log.d("HomeViewModel", "getTheNewest20DealsList: Failed getting deals")
                     }
 
-                    else -> {}
+                    else -> {if (searchTitle.isNotEmpty()) isLoading = false}
                 }
             } catch (exception: Exception) {
+                if (searchTitle.isNotEmpty()) isLoading = false
                 Log.d("HomeViewModel", "getTheNewest20DealsList: ${exception.message.toString()}")
             }
         }
