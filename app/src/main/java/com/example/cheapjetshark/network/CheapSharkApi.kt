@@ -2,7 +2,7 @@ package com.example.cheapjetshark.network
 
 import com.example.cheapjetshark.models.deal.Deal
 import com.example.cheapjetshark.models.deals.DealsList
-import com.example.cheapjetshark.models.gamesbyid.GamesById
+import com.example.cheapjetshark.models.gamesbyid.GameById
 import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
 import com.example.cheapjetshark.models.lastChange.StoresLastChange
 import com.example.cheapjetshark.models.stores.Stores
@@ -38,7 +38,7 @@ interface CheapSharkApi {
     @GET(value = "games")
     suspend fun getGamesById(
         @Query("id") id: String
-    ): GamesById
+    ): GameById
 
     @GET("stores")
     suspend fun getStores(): Stores
