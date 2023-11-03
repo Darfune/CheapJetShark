@@ -37,7 +37,7 @@ interface CheapSharkApi {
 
     @GET(value = "games")
     suspend fun getGamesById(
-        @Query("id") id: String
+        @Query("id") id: Int
     ): GameById
 
     @GET("stores")

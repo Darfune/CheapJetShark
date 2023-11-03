@@ -67,7 +67,7 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
         return Resource.Success(data = response)
     }
 
-    suspend fun getGamesById(id: String): Resource<GameById> {
+    suspend fun getGamesById(id: Int): Resource<GameById> {
         val response = try {
             Resource.Loading(true)
             api.getGamesById(
