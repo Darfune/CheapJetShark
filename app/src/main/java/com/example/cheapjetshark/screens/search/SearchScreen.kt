@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,8 +26,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.cheapjetshark.models.gamesbysearch.GamesBySearch
-import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
+import com.example.cheapjetshark.navigation.bottombar.Details
+import com.example.cheapjetshark.navigation.home.navigateSingleTopTo
+import com.example.cheapjetshark.navigation.root.NavigationGraph
 import com.example.cheapjetshark.screens.search.components.BackIconButton
 import com.example.cheapjetshark.screens.search.components.GamesSearchBar
 import com.example.cheapjetshark.screens.search.components.SearchGameRow
@@ -37,7 +37,8 @@ import com.example.cheapjetshark.screens.search.components.SearchGameRow
 @Composable
 fun SearchScreen(
     navController: NavHostController,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
+    goToGameDetails: (Int) -> Unit = {}
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val searchItem = rememberSaveable {
@@ -58,22 +59,24 @@ fun SearchScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            GamesList(navController, viewModel)
+            GamesList(navController, viewModel, goToGameDetails)
         }
-
     }
-
 }
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun GamesList(navController: NavHostController, viewModel: SearchViewModel = hiltViewModel()) {
-
-
-    val listOfGames = viewModel.searchTitle
+fun GamesList(
+    navController: NavHostController,
+    viewModel: SearchViewModel = hiltViewModel(),
+    goToGameDetails: (Int) -> Unit = {}
+) {
+    val listOfGames = viewModel.gamesFound
     if (viewModel.isLoading) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -83,21 +86,17 @@ fun GamesList(navController: NavHostController, viewModel: SearchViewModel = hil
                     .width(100.dp)
             )
         }
-
     } else {
         LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(4.dp)) {
             Log.d("In Lazy", "GamesList: $listOfGames")
             items(items = listOfGames) { game ->
                 Log.d("Called", "GamesList: $game")
                 SearchGameRow(game = game) {
-
+                    goToGameDetails(game.gameID.toInt())
                 }
-
-
             }
         }
     }
-
 }
 
 

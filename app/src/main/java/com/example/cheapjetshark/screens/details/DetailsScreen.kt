@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -42,9 +43,12 @@ import com.example.cheapjetshark.R
 import com.example.cheapjetshark.screens.details.components.DealsRow
 import com.example.cheapjetshark.ui.theme.onSaleColor
 
-@Preview
 @Composable
-fun DetailsScreen(navController: NavHostController = rememberNavController()) {
+fun DetailsScreen(
+    navController: NavHostController = rememberNavController(),
+    gameID: Int? = 0,
+    viewModel: DetailsViewModel = hiltViewModel()
+) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column {
             Row(
@@ -61,7 +65,7 @@ fun DetailsScreen(navController: NavHostController = rememberNavController()) {
                 )
             }
             Text(
-                text = "Title of Game: More text for the Game",
+                text = "$gameID",
                 style = MaterialTheme.typography.titleLarge,
                 softWrap = true,
                 maxLines = 2,
