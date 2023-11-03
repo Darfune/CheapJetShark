@@ -52,7 +52,7 @@ fun DealsRow() {
             Surface(tonalElevation = 6.dp, shape = RoundedCornerShape(8.dp)) {
                 AsyncImage(
                     model = "https://www.cheapshark.com/img/stores/logos/0.png",
-                    placeholder = painterResource(R.drawable.ic_temp_game_placeholder),
+                    placeholder = painterResource(R.drawable.ic_store_placeholder),
                     contentDescription = "Game Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
