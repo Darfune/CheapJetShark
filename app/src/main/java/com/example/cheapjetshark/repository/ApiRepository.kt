@@ -7,7 +7,6 @@ import com.example.cheapjetshark.models.deals.DealsList
 import com.example.cheapjetshark.models.gamesbyid.GameById
 import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
 import com.example.cheapjetshark.models.lastChange.StoresLastChange
-import com.example.cheapjetshark.models.stores.Stores
 import com.example.cheapjetshark.network.CheapSharkApi
 import javax.inject.Inject
 
@@ -75,18 +74,6 @@ class ApiRepository @Inject constructor(private val api: CheapSharkApi) {
             )
         } catch (exc: Exception) {
             Log.d("Api Repository", "getGamesById: $exc")
-            return Resource.Error(message = exc.toString())
-        }
-        Resource.Loading(false)
-        return Resource.Success(data = response)
-    }
-
-    suspend fun getStores(): Resource<Stores> {
-        val response = try {
-            Resource.Loading(true)
-            api.getStores()
-        } catch (exc: Exception) {
-            Log.d("Api Repository", "getStores: $exc")
             return Resource.Error(message = exc.toString())
         }
         Resource.Loading(false)
