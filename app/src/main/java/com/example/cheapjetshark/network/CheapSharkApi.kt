@@ -5,7 +5,6 @@ import com.example.cheapjetshark.models.deals.DealsList
 import com.example.cheapjetshark.models.gamesbyid.GameById
 import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
 import com.example.cheapjetshark.models.lastChange.StoresLastChange
-import com.example.cheapjetshark.models.stores.Stores
 import retrofit2.http.GET
 import retrofit2.http.Query
 import javax.inject.Singleton
@@ -39,9 +38,6 @@ interface CheapSharkApi {
     suspend fun getGamesById(
         @Query("id") id: Int
     ): GameById
-
-    @GET("stores")
-    suspend fun getStores(): Stores
 
     @GET("stores?lastChange=")
     suspend fun getLastChanges(): StoresLastChange
