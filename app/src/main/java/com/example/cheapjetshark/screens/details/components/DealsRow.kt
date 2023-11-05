@@ -1,6 +1,5 @@
 package com.example.cheapjetshark.screens.details.components
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,21 +20,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.cheapjetshark.R
-import com.example.cheapjetshark.models.gamesbysearch.GamesBySearchItem
+import com.example.cheapjetshark.models.gamesbyid.Deal
 import com.example.cheapjetshark.ui.theme.onSaleColor
+import com.example.cheapjetshark.utils.Constants
 import kotlin.math.floor
 
-@Preview
 @Composable
-fun DealsRow() {
-
+fun DealsRow(deal: Deal) {
     Surface(
         modifier = Modifier
             .clickable
@@ -48,10 +44,9 @@ fun DealsRow() {
     )
     {
         Row(modifier = Modifier.padding(6.dp), verticalAlignment = Alignment.Top) {
-
             Surface(tonalElevation = 6.dp, shape = RoundedCornerShape(8.dp)) {
                 AsyncImage(
-                    model = "https://www.cheapshark.com/img/stores/logos/0.png",
+                    model = "${Constants.LOGOS_URL}${deal.storeID}.png",
                     placeholder = painterResource(R.drawable.ic_store_placeholder),
                     contentDescription = "Game Image",
                     contentScale = ContentScale.Crop,
@@ -68,7 +63,7 @@ fun DealsRow() {
             ) {
 
                 Text(
-                    text = "Steam",
+                    text = getStoreName(deal.storeID),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
@@ -82,14 +77,14 @@ fun DealsRow() {
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
                             ) {
-                                append("19.99 → 4.99 - Down: ")
+                                append("${deal.retailPrice} → ${deal.price} - Down: ")
                             }
                             withStyle(
                                 style = SpanStyle(
                                     color = onSaleColor
                                 )
                             ) {
-                                append(floor(78.839420).toString() + "%")
+                                append("${floor(deal.savings.toDouble())}%")
                             }
 
                         },
@@ -102,6 +97,8 @@ fun DealsRow() {
             }
         }
     }
+}
 
-
+fun getStoreName(storeID: String): String {
+    return Constants.StoreList[storeID].toString()
 }
