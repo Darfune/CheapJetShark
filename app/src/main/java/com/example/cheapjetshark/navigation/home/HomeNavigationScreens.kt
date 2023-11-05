@@ -1,4 +1,4 @@
-package com.example.cheapjetshark.navigation.bottombar
+package com.example.cheapjetshark.navigation.home
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -12,7 +12,7 @@ interface HomeNavigationScreens {
     val unselectedIcon: Int?
 }
 
-object Home : HomeNavigationScreens{
+object Home : HomeNavigationScreens {
     override val route = "home"
     override val title = "Home"
     override val selectedIcon = R.drawable.selected_home_nav_item
@@ -20,14 +20,14 @@ object Home : HomeNavigationScreens{
 }
 
 
-object Stores : HomeNavigationScreens{
+object Stores : HomeNavigationScreens {
     override val route = "stores"
     override val title = "Stores"
     override val selectedIcon = R.drawable.selected_store_nav_item
     override val unselectedIcon = R.drawable.unselected_store_nav_item
 }
 
-object Favorites : HomeNavigationScreens{
+object Favorites : HomeNavigationScreens {
     override val route = "favorites"
     override val title = "Favorites"
     override val selectedIcon = R.drawable.selected_favorites_item
@@ -35,7 +35,7 @@ object Favorites : HomeNavigationScreens{
 
 }
 
-object Search : HomeNavigationScreens{
+object Search : HomeNavigationScreens {
     override val route = "search"
     override val title = "Search"
     override val selectedIcon = null
@@ -43,13 +43,13 @@ object Search : HomeNavigationScreens{
 
 }
 
-object Details : HomeNavigationScreens{
+object Details : HomeNavigationScreens {
     override val route = "details"
     override val title = "Details"
     override val selectedIcon = null
     override val unselectedIcon = null
     const val detailsTypeArg = "gameID"
-    val routeWithArgs = "${route}/{${detailsTypeArg}}"
+    val routeWithArgs = "$route/{$detailsTypeArg}"
     val arguments = listOf(
         navArgument(detailsTypeArg) { type = NavType.IntType }
     )

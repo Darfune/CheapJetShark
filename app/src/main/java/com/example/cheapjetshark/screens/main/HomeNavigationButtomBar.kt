@@ -40,11 +40,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cheapjetshark.R
-import com.example.cheapjetshark.navigation.bottombar.Favorites
-import com.example.cheapjetshark.navigation.bottombar.Home
-import com.example.cheapjetshark.navigation.bottombar.HomeBottomNavigationScreens
-import com.example.cheapjetshark.navigation.bottombar.Search
-import com.example.cheapjetshark.navigation.bottombar.Stores
+import com.example.cheapjetshark.navigation.home.Favorites
+import com.example.cheapjetshark.navigation.home.Home
+import com.example.cheapjetshark.navigation.home.HomeBottomNavigationScreens
+import com.example.cheapjetshark.navigation.home.Search
+import com.example.cheapjetshark.navigation.home.Stores
 import com.example.cheapjetshark.navigation.home.HomeNavHost
 import com.example.cheapjetshark.navigation.root.NavigationGraph
 import com.example.cheapjetshark.screens.main.components.FABContent
@@ -99,7 +99,7 @@ fun HomeNavigationBottomBar(
     currentDestination: NavDestination?
 ) {
     NavigationBar {
-        HomeBottomNavigationScreens.forEachIndexed { index, item ->
+        HomeBottomNavigationScreens.forEachIndexed { _, item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.primary,

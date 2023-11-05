@@ -26,9 +26,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.cheapjetshark.navigation.bottombar.Details
-import com.example.cheapjetshark.navigation.home.navigateSingleTopTo
-import com.example.cheapjetshark.navigation.root.NavigationGraph
 import com.example.cheapjetshark.screens.search.components.BackIconButton
 import com.example.cheapjetshark.screens.search.components.GamesSearchBar
 import com.example.cheapjetshark.screens.search.components.SearchGameRow

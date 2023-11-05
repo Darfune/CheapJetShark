@@ -6,9 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.example.cheapjetshark.R
-import com.example.cheapjetshark.navigation.bottombar.Home
+import com.example.cheapjetshark.navigation.home.Home
 import com.example.cheapjetshark.navigation.home.navigateSingleTopTo
-import com.example.cheapjetshark.navigation.root.NavigationGraph
 
 @Composable
 fun BackIconButton(navController: NavHostController) {

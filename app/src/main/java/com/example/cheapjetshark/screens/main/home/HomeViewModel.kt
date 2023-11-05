@@ -31,8 +31,6 @@ class HomeViewModel @Inject constructor(private val apiRepository: ApiRepository
 
     init {
         loadDeals()
-
-
     }
 
     private fun loadDeals() {

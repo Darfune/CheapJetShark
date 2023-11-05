@@ -8,11 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.cheapjetshark.navigation.bottombar.Details
-import com.example.cheapjetshark.navigation.bottombar.Favorites
-import com.example.cheapjetshark.navigation.bottombar.Home
-import com.example.cheapjetshark.navigation.bottombar.Search
-import com.example.cheapjetshark.navigation.bottombar.Stores
 import com.example.cheapjetshark.navigation.root.NavigationGraph
 import com.example.cheapjetshark.screens.details.DetailsScreen
 import com.example.cheapjetshark.screens.details.DetailsViewModel
